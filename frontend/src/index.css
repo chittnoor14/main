@@ -1,0 +1,20 @@
+@import "tailwindcss";
+/* small custom tweaks */
+:root{
+  --sidebar-width: 18rem; /* 288px */
+}
+
+/* make the app full height */
+html,body,#root {
+  height: 100%;
+}
+
+/* subtle card shadow */
+.card {
+  @apply bg-white rounded-lg shadow-sm;
+}
+
+/* smooth small transitions */
+.transition-fast {
+  transition: all 0.16s ease;
+}
