@@ -16,25 +16,34 @@ export default function Payments() {
   //   setUsers(res.data);
   // };
 
-  const fetchPayments = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/payments/my-payments"); // updated route
-      setPayments(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+ const token = localStorage.getItem("token");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/api/payments/", form); // create payment
-      setForm({ amount: "", method: "", proof: "" });
-      fetchPayments();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+const fetchPayments = async () => {
+  try {
+    const res = await axios.get("http://localhost:5000/api/payments/my-payments", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setPayments(res.data);
+  } catch (err) {
+    console.error("Error fetching payments:", err.response?.data || err.message);
+  }
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await axios.post(
+      "http://localhost:5000/api/payments/",
+      { ...form, amount: Number(form.amount) },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    setForm({ amount: "", method: "", proof: "" });
+    fetchPayments();
+  } catch (err) {
+    console.error("Error adding payment:", err.response?.data || err.message);
+  }
+};
+
 
   return (
     <div>

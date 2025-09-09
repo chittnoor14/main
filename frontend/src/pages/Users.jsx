@@ -5,33 +5,29 @@ export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Placeholder token for future auth
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token"); // Get token from localStorage
 
   useEffect(() => {
-    // Future API call example
-    // axios
-    //   .get("http://localhost:5000/api/users", {
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   })
-    //   .then((res) => setUsers(res.data))
-    //   .catch((err) => console.error(err))
-    //   .finally(() => setLoading(false));
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/users", {
+          headers: { Authorization: `Bearer ${token}` }, // pass token if required
+        });
+        setUsers(res.data); // store users from backend
+      } catch (err) {
+        console.error("Error fetching users:", err);
+        alert("Failed to fetch users from server");
+      } finally {
+        setLoading(false); // stop loading indicator
+      }
+    };
 
-    // Temporary placeholder
-    setTimeout(() => {
-      setUsers([
-        { _id: "1", name: "Alice", email: "alice@example.com", role: "user" },
-        { _id: "2", name: "Bob", email: "bob@example.com", role: "admin" },
-      ]);
-      setLoading(false);
-    }, 1000);
-  }, [token]);
+    fetchUsers(); // call the async function
+  }, [token]); // run once on component mount, or when token changes
 
   return (
     <div className="card p-6">
       <h2 className="text-xl font-semibold mb-4">Users</h2>
-
       {loading ? (
         <p className="text-gray-500">Loading users...</p>
       ) : users.length === 0 ? (
@@ -58,9 +54,8 @@ export default function Users() {
           </table>
         </div>
       )}
-
       <p className="text-gray-500 mt-4">
-        Manage tenants and admins. Real API integration coming soon.
+        Manage tenants and admins. Real API integration is active now.
       </p>
     </div>
   );
