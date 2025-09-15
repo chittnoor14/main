@@ -22,7 +22,6 @@ export default function Signup() {
       const data = await res.json();
 
       if (res.ok) {
-        // ✅ Auto-login right after signup
         localStorage.setItem("token", data.token);
         localStorage.setItem(
           "user",
@@ -34,7 +33,7 @@ export default function Signup() {
           })
         );
 
-        navigate("/"); // redirect to dashboard
+        navigate("/");
       } else {
         alert(data.message || "Signup failed");
       }
@@ -45,60 +44,85 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <form
         onSubmit={handleSignup}
-        className="bg-white p-8 rounded-xl shadow-md w-96"
+        className="bg-white p-8 rounded-2xl shadow-xl w-[90%] max-w-md border border-gray-200 transition-all hover:shadow-2xl"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Signup</h2>
+        <h2 className="text-3xl font-bold mb-2 text-center text-gray-800">
+          Create an Account 
+        </h2>
+        {/* <p className="text-center text-gray-500 mb-6">
+          Join us and get started quickly
+        </p> */}
 
-        <input
-          type="text"
-          placeholder="Full Name"
-          className="w-full mb-4 p-3 border rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600 mb-1 text-left">
+            Full Name
+          </label>
+          <input
+            type="text"
+            placeholder="Your full name"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none transition"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-4 p-3 border rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600 mb-1 text-left">
+            Email
+          </label>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none transition"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-4 p-3 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600 mb-1 text-left">
+            Password
+          </label>
+          <input
+            type="password"
+            placeholder="••••••••"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none transition"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
 
-        <select
-          className="w-full mb-4 p-3 border rounded"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-600 mb-1 text-left">
+            Role
+          </label>
+          <select
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none transition"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700"
+          className="w-full bg-teal-500 text-white py-3 rounded-lg font-semibold hover:bg-teal-600 transition-all duration-300 shadow-md hover:shadow-lg"
         >
-          Signup
+          Sign Up
         </button>
 
-        <p className="text-sm text-center mt-4">
+        <p className="text-sm text-center mt-6 text-gray-600">
           Already have an account?{" "}
           <span
-            className="text-blue-600 cursor-pointer"
+            className="text-teal-600 font-medium cursor-pointer hover:underline"
             onClick={() => navigate("/login")}
           >
             Login

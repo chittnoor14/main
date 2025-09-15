@@ -12,22 +12,34 @@ import "./App.css";
 export default function App() {
   const location = useLocation();
 
-  // routes where we don't want sidebar & navbar
   const hideLayout = ["/login", "/signup"];
   const isAuthPage = hideLayout.includes(location.pathname);
 
+  // If it's an authentication page, we render it without the main layout.
+  // This is a cleaner way to handle separate layouts.
+  if (isAuthPage) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    );
+  }
+
+  // Otherwise, render the main application layout with Sidebar and Navbar.
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-800">
-      {!isAuthPage && <Sidebar />}
+    // IMPROVEMENT: Changed background to the dark theme to match all other components.
+    <div className="flex h-full bg-slate-900 text-slate-300">
+      <Sidebar />
 
-      <div className="flex-1 flex flex-col">
-        {!isAuthPage && <Navbar />}
-        <main className="p-6 md:p-8 flex-1 overflow-auto">
+      <div className="flex-1 flex flex-col h-full">
+        <Navbar />
+        {/* IMPROVEMENT: Removed padding from the <main> tag.
+          The individual pages (like Dashboard.jsx) now control their own padding.
+          This prevents "double padding" and gives each page full control.
+        */}
+        <main className="flex-1 overflow-y-auto">
           <Routes>
-            {/* Auth pages */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-
             {/* Protected pages */}
             <Route path="/" element={<Dashboard />} />
             <Route path="/users" element={<Users />} />
